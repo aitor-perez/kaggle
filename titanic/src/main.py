@@ -2,6 +2,8 @@ import numpy as np
 import pandas as pd
 
 
+from sklearn.model_selection import KFold
+from sklearn.model_selection import cross_val_score
 from sklearn.ensemble import RandomForestClassifier
 
 #%% Reading data
@@ -26,7 +28,21 @@ X_test = pd.get_dummies(test_data[features])
 
 y = train_data["Survived"]
 
-model = RandomForestClassifier(random_state=1)
+#%% Cross-validation
+cv = KFold(n_splits=10, shuffle=True, random_state=0)
+
+models = []
+scores = []
+for n in [10, 50, 100]:
+    print("n = ", n)
+    model = RandomForestClassifier(n_estimators=n, max_depth=5, random_state=0)
+    score = np.mean(cross_val_score(model, X, y, cv=cv, n_jobs=1, scoring='accuracy'))
+
+    models.append(model)
+    scores.append(score)
+
+
+model = models[np.array(scores).argmax()]
 model.fit(X, y)
 predictions = model.predict(X_test)
 
