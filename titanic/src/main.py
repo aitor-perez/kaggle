@@ -1,7 +1,6 @@
 import numpy as np
 import pandas as pd
 
-
 from sklearn.model_selection import KFold
 from sklearn.model_selection import cross_val_score
 from sklearn.ensemble import RandomForestClassifier
@@ -23,29 +22,31 @@ print("% of men who survived:", rate_men)       # ~0.19
 
 #%% Improving prediction with a random forest
 features = ["Pclass", "Sex", "SibSp", "Parch"]
-X = pd.get_dummies(train_data[features])
+X_train = pd.get_dummies(train_data[features])
 X_test = pd.get_dummies(test_data[features])
 
-y = train_data["Survived"]
+y_train = train_data["Survived"]
 
 #%% Cross-validation
 cv = KFold(n_splits=10, shuffle=True, random_state=0)
 
-models = []
+clfs = []
 scores = []
 for n in [10, 50, 100]:
     print("n = ", n)
-    model = RandomForestClassifier(n_estimators=n, max_depth=5, random_state=0)
-    score = np.mean(cross_val_score(model, X, y, cv=cv, n_jobs=1, scoring='accuracy'))
+    clf = RandomForestClassifier(n_estimators=n, max_depth=5, random_state=0)
+    score = np.mean(cross_val_score(clf, X_train, y_train, cv=cv, n_jobs=1, scoring='accuracy'))
 
-    models.append(model)
+    clfs.append(clf)
     scores.append(score)
 
 
-model = models[np.array(scores).argmax()]
-model.fit(X, y)
-predictions = model.predict(X_test)
+clf = clfs[np.array(scores).argmax()]
+print("Best classifier:", clf)
+
+clf.fit(X_train, y_train)
+predictions = clf.predict(X_test)
 
 output = pd.DataFrame({'PassengerId': test_data.PassengerId, 'Survived': predictions})
 output.to_csv('predictions.csv', index=False)
-print("Your submission was successfully saved!")
+print("Submission successfully saved!")
