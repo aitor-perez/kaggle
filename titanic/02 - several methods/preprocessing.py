@@ -4,10 +4,6 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-from sklearn.model_selection import KFold
-from sklearn.model_selection import cross_val_score
-from sklearn.ensemble import RandomForestClassifier
-
 pd.options.display.max_columns = 20
 
 #%% Reading data
@@ -60,38 +56,38 @@ print_stratified_means('Parch')
 # Not significant for SibSp and Parch, we decide to derive another feature from them.
 
 #%% Check for correlations - Age
-# g = sns.FacetGrid(train_data, col='Survived')
-# g.map(plt.hist, 'Age', alpha=.5, bins=20)
-# plt.show()
+g = sns.FacetGrid(train_data, col='Survived')
+g.map(plt.hist, 'Age', alpha=.5, bins=20)
+plt.show()
 
 # We see that infants had high survival rate. We decide to include Age into the analysis.
 # However, we decide to discretize the variable into age groups.
 
 #%% Check for correlations - Age and Pclass
-# g = sns.FacetGrid(train_data, col='Survived', row='Pclass', height=2.2, aspect=1.6)
-# g.map(plt.hist, 'Age', alpha=.5, bins=20)
-# g.add_legend()
-# plt.show()
+g = sns.FacetGrid(train_data, col='Survived', row='Pclass', height=2.2, aspect=1.6)
+g.map(plt.hist, 'Age', alpha=.5, bins=20)
+g.add_legend()
+plt.show()
 
 # We see that most passengers with Pclass=1 survived, as well as most infants with
 # Pclass=2 or Pclass=3. Also most passengers with Pclass=3 did not survive.
 # We make clear the need of adding Pclass to the analysis.
 
 #%% Check for correlations - Embarked, Pclass and Sex
-# g = sns.FacetGrid(train_data, row='Embarked', height=2.2, aspect=1.6)
-# g.map(sns.pointplot, 'Pclass', 'Survived', 'Sex', palette='deep', order=[1, 2, 3], hue_order=['female', 'male'])
-# g.add_legend()
-# plt.show()
+g = sns.FacetGrid(train_data, row='Embarked', height=2.2, aspect=1.6)
+g.map(sns.pointplot, 'Pclass', 'Survived', 'Sex', palette='deep', order=[1, 2, 3], hue_order=['female', 'male'])
+g.add_legend()
+plt.show()
 
 # We see that females survived much more often than males.
 # Embarked=C seems to correlate with higher survival rates for males.
 # We decide to include Sex and Embark to the analysis.
 
 #%% Check for correlations - Embarked, Sex, Fare
-# g = sns.FacetGrid(train_data, row='Embarked', col='Survived', height=2.2, aspect=1.6)
-# g.map(sns.barplot, 'Sex', 'Fare', alpha=.5, ci=None, order=['male', 'female'])
-# g.add_legend()
-# plt.show()
+g = sns.FacetGrid(train_data, row='Embarked', col='Survived', height=2.2, aspect=1.6)
+g.map(sns.barplot, 'Sex', 'Fare', alpha=.5, ci=None, order=['male', 'female'])
+g.add_legend()
+plt.show()
 
 # We see that passengers having paid high fares had better survival rate. Embark also seems
 # to have correlation, which confirms the need to include this feature in the analysis.
@@ -152,10 +148,10 @@ print(train_data.head())
 
 #%% Complete missing values
 
-# g = sns.FacetGrid(train_data, row='Pclass', col='Sex', height=2.2, aspect=1.6)
-# g.map(plt.hist, 'Age', alpha=.5, bins=20)
-# g.add_legend()
-# plt.show()
+g = sns.FacetGrid(train_data, row='Pclass', col='Sex', height=2.2, aspect=1.6)
+g.map(plt.hist, 'Age', alpha=.5, bins=20)
+g.add_legend()
+plt.show()
 
 # We fill missing Age values with the median Age of the set of passengers with the same Pclass and Sex
 guessed_ages = np.zeros((2, 3))
@@ -268,7 +264,4 @@ print(test_data.head())
 #%% We now have clean preprocessed datasets ready to be used to train models
 train_data.to_csv('preprocessed_train.csv', index=False)
 test_data.to_csv('preprocessed_test.csv', index=False)
-
-
-
-
+print("Preprocessed datasets successfully saved!")
