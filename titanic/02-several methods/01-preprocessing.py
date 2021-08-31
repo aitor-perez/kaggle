@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 
 pd.options.display.max_columns = 20
 
-#%% Reading data
+#%% Read data
 train_data = pd.read_csv('../data/train.csv')
 test_data = pd.read_csv('../data/test.csv')
 
@@ -131,7 +131,7 @@ print(train_data.head())
 #%% Drop Name and PassengerId features, as we decided not to include them
 
 train_data = train_data.drop(['PassengerId', 'Name'], axis=1)
-test_data = test_data.drop(['PassengerId', 'Name'], axis=1)
+test_data = test_data.drop(['Name'], axis=1)
 
 print(train_data.head())
 print(test_data.head())
