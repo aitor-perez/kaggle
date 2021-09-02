@@ -1,7 +1,6 @@
 import numpy as np
 import pandas as pd
 
-import seaborn as sns
 import matplotlib.pyplot as plt
 
 pd.options.display.max_columns = 20
@@ -130,8 +129,16 @@ for data in [train_data, test_data]:
     for i in range(0, len(sex_levels)):
         data['Sex'] = data['Sex'].replace(sex_levels[i], i)
 
-print(train_data.info())
-print(test_data.info())
+#%% We normalize all variables to [0, 1]
+for data in [train_data, test_data]:
+    for feature in ['Pclass', 'Age', 'SibSp', 'Parch', 'Fare']:
+        min_value = data[feature].min()
+        max_value = data[feature].max()
+        data[feature] = (data[feature] - min_value) / (max_value - min_value)
+
+print(train_data)
+print(test_data)
+
 
 #%% We now have clean preprocessed datasets ready to be used to train models
 train_data.to_csv('preprocessed_train.csv', index=False)
