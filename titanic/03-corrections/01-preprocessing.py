@@ -110,11 +110,18 @@ train_data['Embarked'].fillna(most_common_port, inplace=True)
 
 print(train_data.info())
 
-#%% Complete Fare with the median value
+#%% We complete Fare with the median value
 median_fare = test_data['Fare'].dropna().median()
 test_data['Fare'].fillna(median_fare, inplace=True)
 
 print(test_data.info())
+
+#%% We add SibSp and Parch to derive a new variable Relatives
+for data in [train_data, test_data]:
+    data['Relatives'] = data['SibSp'] + data['Parch']
+
+print(train_data)
+print(test_data)
 
 #%% We convert categorical variable Embarked with one-hot encoding
 train_data = pd.get_dummies(train_data, columns=['Embarked'], prefix='Embarked')
@@ -131,7 +138,7 @@ for data in [train_data, test_data]:
 
 #%% We normalize all variables to [0, 1]
 for data in [train_data, test_data]:
-    for feature in ['Pclass', 'Age', 'SibSp', 'Parch', 'Fare']:
+    for feature in ['Pclass', 'Age', 'SibSp', 'Parch', 'Fare', 'Relatives']:
         min_value = data[feature].min()
         max_value = data[feature].max()
         data[feature] = (data[feature] - min_value) / (max_value - min_value)
