@@ -80,7 +80,7 @@ scores['Score'] = pd.Series(np.zeros(len(classifiers)))
 print(scores)
 
 #%% Training of classifiers with cross validation
-cv = KFold(n_splits=10, shuffle=True, random_state=0)
+cv = KFold(n_splits=10, shuffle=True)
 
 for model, classifier in classifiers.items():
     print("Tuning", model)
@@ -108,7 +108,6 @@ best_clf = classifiers[best_model]['clf']
 y_pred = best_clf.predict(X_test)
 
 #%% Prediction with majority vote
-
 y_preds = pd.DataFrame()
 for model, classifier in classifiers.items():
     y_preds[model] = classifier['clf'].predict(X_test)
@@ -117,6 +116,12 @@ y_preds['Sum'] = y_preds.sum(axis=1)
 y_preds['Majority'] = y_preds.mode(axis=1)
 
 y_pred = y_preds['Majority']
+
+#%% Prediction of all models
+for model, classifier in classifiers.items():
+    output = pd.DataFrame({'PassengerId': test_data['PassengerId'], 'Survived': y_preds[model]})
+    file = 'predictions/' + model.replace(' ', '').lower() + '.csv'
+    output.to_csv(file, index=False)
 
 #%% Save predictions
 output = pd.DataFrame({'PassengerId': test_data['PassengerId'], 'Survived': y_pred})
