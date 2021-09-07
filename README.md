@@ -1,1 +1,1 @@
-Hello
+This repository contains personal projects for [kaggle](https://www.kaggle.com/) challenges.
