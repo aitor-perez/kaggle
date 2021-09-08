@@ -113,7 +113,7 @@ for model, classifier in classifiers.items():
     y_preds[model] = classifier['clf'].predict(X_test)
 
 y_preds['Sum'] = y_preds.sum(axis=1)
-y_preds['Majority'] = y_preds.mode(axis=1)
+y_preds['Majority'] = y_preds.mode(axis=1)[0]
 
 y_pred = y_preds['Majority']
 
