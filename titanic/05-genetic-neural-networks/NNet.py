@@ -26,11 +26,20 @@ class NNet:
                                  hidden_layer_sizes=(self.hls,),
                                  activation=self.act,
                                  alpha=self.alpha)
-        self.score = np.mean(cross_val_score(self.clf, X, y, cv=cv, scoring='accuracy'))
+        self.score = np.mean(cross_val_score(self.clf, X, y, cv=cv, n_jobs=3, scoring='accuracy'))
         self.clf.fit(X, y)
 
     def reproduce(self, other):
-        return self
+        # Arithmetic mean for hls
+        hls = round(np.mean([self.hls, other.hls]))
+
+        # Activation function at random
+        act = np.random.choice([self.act, other.act])
+
+        # Geometric mean for alpha
+        alpha = np.sqrt(self.alpha * other.alpha)
+
+        return NNet(hls, act, alpha).mutate()
 
     def mutate(self):
         # Mutate hidden_layer_sizes
