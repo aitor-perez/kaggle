@@ -25,9 +25,9 @@ X_test = test_data.drop('PassengerId', axis=1)
 print(X_train.shape, y_train.shape, X_test.shape)
 
 #%% We prepare the initial structures for the genetic approach
-generations = 2
+generations = 10
 
-population_size = 4
+population_size = 20
 tail_size = round(population_size/4)
 exception_size = round(tail_size/2)
 
