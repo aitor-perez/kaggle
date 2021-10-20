@@ -2,7 +2,10 @@
 **/.idea
 **/.DS_Store
 **/__pycache__
+**/.ipynb_checkpoints
 
-# Ignore too big datasets
+# Ignore big datasets
 **/future-sales/data/sales_train.csv
 
+# Ignore output files created by model training
+**/catboost_info
