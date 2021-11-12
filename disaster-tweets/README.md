@@ -15,3 +15,6 @@ Solutions using Neural Networks, using the library *keras* from *tensorflow*. Th
 1. [01-base](04-nnets-keras/01-base/base.ipynb): We establish a fixed architecture with two convolutional layers followed by a dense layer.
 2. [02-simple](04-nnets-keras/02-simple/simple.ipynb): We establish a simple, fixed architecture with just one dense layer.
 3. [03-genetic](04-nnets-keras/03-genetic/genetic.ipynb): We establish a fixed architecture with two convolutional layers followed by a dense layer, and we tune the hyperparameters using a genetic approach. **We encourage the reader to have a look at this notebook.**
+
+#### 05-final
+[Notebook](05-final/disaster-tweets.ipynb) with the combination of all the previous approaches. **We encourage the reader to have a look at this notebook.**
